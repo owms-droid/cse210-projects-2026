@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+//Saved date information in the journal entry.
 class Program
 {
     static void Main(string[] args)
