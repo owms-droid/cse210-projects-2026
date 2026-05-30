@@ -28,6 +28,18 @@ public class Word
 
     public string GetDisplayText()
     {
-        return _isHidden ? "_____" : _text;
+        if (!_isHidden) return _text;
+
+        if (string.IsNullOrEmpty(_text)) return _text;
+
+        int end = _text.Length - 1;
+        while (end >= 0 && !Char.IsLetterOrDigit(_text[end])) end--;
+        int coreLength = end + 1;
+        if (coreLength <= 0) return _text;
+
+        string core = _text.Substring(0, coreLength);
+        string punctuation = _text.Substring(coreLength);
+        string mask = new string('_', core.Length);
+        return mask + punctuation;
     }
 }
