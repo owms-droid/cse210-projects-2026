@@ -2,11 +2,27 @@ using System;
 
 public class Customer
 {
-    public string Name { get; set; }
-    public Address Address { get; set; }
+    private string _name;
+    private Address _address;
 
-    public callAddress()
+    public Customer(string name, Address address)
     {
-        return Address.GetFullAddress();
+        _name = name;
+        _address = address;
+    }
+
+    public bool IsInUSA()
+    {
+        return _address.IsInUSA();
+    }
+
+    public string GetName()
+    {
+        return _name;
+    }
+
+    public string GetAddress()
+    {
+        return _address.GetFullAddress();
     }
 }

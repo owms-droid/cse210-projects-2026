@@ -2,26 +2,49 @@ using System;
 
 public class Order
 {
-    public List<Product> Products { get; set; }
-    public List<Customer> Customers { get; set; }
+    private List<Product> _products;
+    private Customer _customer;
 
-    public TotalCost()
+    public Order(Customer customer)
     {
-        double totalCost = 0;
-        foreach (Product product in Products)
-        {
-            totalCost += product.Price;
-        }
-        return totalCost;
+        _customer = customer;
+        _products = new List<Product>();
     }
 
-    public PackingLabel()
+    public void AddProduct(Product product)
     {
-        string packingLabel = "";
-        foreach (Product product in Products)
-        {
-            packingLabel += product.Name + "\n";
-        }
-        return packingLabel;
+        _products.Add(product);
     }
+
+    public double CalculateTotalOrderPrice()
+    {
+        double total = 0;
+        foreach (Product product in _products)
+        {
+            total += product.GetTotalCost();
+        }
+
+        double shippingCost = _customer.IsInUSA() ? 5.00 : 35.00;
+        total += shippingCost;
+        return total;
+    }
+
+    public string GetPackingLabel()
+    {
+        string label = "Packing Label:\n";
+        foreach (Product product in _products)
+        {
+            label += $"Product: {product.GetName()} (ID: {product.GetProductId()})\n";
+        }
+        return label;
+    }
+
+    public string GetShippingLabel()
+    {
+        string label = "Shipping Label:\n";
+        label += $"Customer: {_customer.GetName()}\n";
+        label += $"Address:\n{_customer.GetAddress()}\n";
+        return label;
+    }
+    
 }
