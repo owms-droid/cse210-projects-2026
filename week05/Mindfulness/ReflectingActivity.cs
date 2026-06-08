@@ -5,6 +5,9 @@ public class ReflectingActivity : Activity
     private List<string> _prompts;
     private List<string> _questions;
 
+    private int _promptIndex = 0;
+    private int _questionIndex = 0;
+
     public ReflectingActivity() : base("Reflection Activity", "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life.")
     {
         _prompts = new List<string>
@@ -31,6 +34,11 @@ public class ReflectingActivity : Activity
         Console.WriteLine("Prepare to begin...");
         ShowSpinner(3);
 
+        ShuffleList(_prompts);
+        ShuffleList(_questions);
+        _promptIndex = 0;
+        _questionIndex = 0;
+
         DisplayPrompt();
 
         int elapsedSeconds = 0;
@@ -47,16 +55,22 @@ public class ReflectingActivity : Activity
 
     public string GetRandomPrompt()
     {
-        Random random = new Random();
-        int index = random.Next(_prompts.Count);
-        return _prompts[index];
+        if (_promptIndex >= _prompts.Count)
+        {
+            ShuffleList(_prompts);
+            _promptIndex = 0;
+        }
+        return _prompts[_promptIndex++];
     }
 
     public string GetRandomQuestion()
     {
-        Random random = new Random();
-        int index = random.Next(_questions.Count);
-        return _questions[index];
+        if (_questionIndex >= _questions.Count)
+        {
+            ShuffleList(_questions);
+            _questionIndex = 0;
+        }
+        return _questions[_questionIndex++];
     }
 
     public void DisplayPrompt()
@@ -67,5 +81,17 @@ public class ReflectingActivity : Activity
     public void DisplayQuestions()
     {
         Console.WriteLine(GetRandomQuestion());
+    }
+
+    private void ShuffleList(List<string> list)
+    {
+        Random random = new Random();
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int randomIndex = random.Next(i + 1);
+            string temp = list[i];
+            list[i] = list[randomIndex];
+            list[randomIndex] = temp;
+        }
     }
 }

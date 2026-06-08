@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 
+//I have implemented "No repeated prompts in the same session" as exceeding requirements
 public class ListingActivity : Activity
 {
     private string _count;
     private List<string> _prompts;
+    private int _promptIndex = 0;
 
     public ListingActivity() : base("Listing Activity", "This activity will help you reflect on the good things in your life by prompting you to list as many things as you can in a certain area.")
     {
@@ -25,6 +27,9 @@ public class ListingActivity : Activity
         Console.WriteLine("Prepare to begin...");
         ShowSpinner(3);
 
+        ShuffleList(_prompts);
+        _promptIndex = 0;
+
         GetRandomPrompt();
         Console.WriteLine("Begin listing...");
         ShowcountDown(3);
@@ -37,9 +42,12 @@ public class ListingActivity : Activity
 
     public void GetRandomPrompt()
     {
-        Random random = new Random();
-        int index = random.Next(_prompts.Count);
-        Console.WriteLine(_prompts[index]);
+        if (_promptIndex >= _prompts.Count)
+        {
+            ShuffleList(_prompts);
+            _promptIndex = 0;
+        }
+        Console.WriteLine(_prompts[_promptIndex++]);
     }
 
     public List<string> GetListFromUser(int durationSeconds)
@@ -65,5 +73,17 @@ public class ListingActivity : Activity
             userList.Add(input);
         }
         return userList;
+    }
+
+    private void ShuffleList(List<string> list)
+    {
+        Random random = new Random();
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int randomIndex = random.Next(i + 1);
+            string temp = list[i];
+            list[i] = list[randomIndex];
+            list[randomIndex] = temp;
+        }
     }
 }
