@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-//I have implemented "No repeated prompts in the same session" as exceeding requirements
 public class ListingActivity : Activity
 {
     private string _count;
