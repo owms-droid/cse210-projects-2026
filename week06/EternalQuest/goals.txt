@@ -1,0 +1,6 @@
+2310
+SimpleGoal|Run Marathon|Complete a full marathon race|1000|True
+EternalGoal|Read Scriptures|Read from the scriptures daily|100
+ChecklistGoal|Visit Temple|Visit the temple 10 times|50|10|10|500
+SimpleGoal|eat healthy|i need to cook my own food at home|10|True
+EternalGoal|seal to temple|get sealed wioth my wife|100
